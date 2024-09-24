@@ -4,7 +4,7 @@ Unofficial ArduinoBoy Repository for serial MIDI communication to the Nintendo G
 This is a fork of Catskull's fork of trash80's official code . It adds the following changes:
 
 My changes
- - Mode button input pin has been moved back from pin 3 from pin 2.
+ - Mode button input pin has been moved back to pin 3 from pin 2.
  - Mode button uses an an external pull down resistor instead of an internal pull up resistor.
  - LED pinouts are changed for Arduino Leonardo/Yún/Micro (ATmega32U4) because I use Arduino Pro Micro instead.
  - Optocoupler power pinout changed from 0 to 4 to support the Pro Micro
