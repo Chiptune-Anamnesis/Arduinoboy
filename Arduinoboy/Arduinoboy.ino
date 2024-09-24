@@ -189,14 +189,14 @@ HardwareSerial *serial = &Serial1;
 // Pin distribution comes from official Arduino Leonardo documentation
 
 int pinGBClock     = A0;    // Analog In 0 - clock out to gameboy
-int pinGBSerialOut = A1;    // Analog In 1 - serial data to gameboy
+int pinGBSerialOut = A1;    // Analog In 1 - serial data to gameboy 
 int pinGBSerialIn  = A2;    // Analog In 2 - serial data from gameboy
-int pinMidiInputPower = 0; // power pin for midi input opto-isolator
-int pinStatusLed = 8; // Status LED
-int pinLeds[] = {3, 4, 5, 6, 7, 8}; // LED Pins
+int pinMidiInputPower = 4; // power pin for midi input opto-isolator
+int pinStatusLed = 10; // Status LED
+int pinLeds[] = {9,8,7,6,5,10}; // LED Pins
 //int pinStatusLed = 13; // Status LED
 //int pinLeds[] = {12,11,10,9,8,13}; // LED Pins
-int pinButtonMode = 2; //toggle button for selecting the mode
+int pinButtonMode = 3; //toggle button for selecting the mode
 
 HardwareSerial *serial = &Serial1;
 
