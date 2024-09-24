@@ -6,7 +6,8 @@ This is a fork of Catskull's fork of trash80's official code . It adds the follo
 My changes
  - Mode button input pin has been moved back from pin 3 from pin 2.
  - Mode button uses an an external pull down resistor instead of an internal pull up resistor.
- - LED pinouts are changed for Arduino Leonardo/Yún/Micro (ATmega32U4)
+ - LED pinouts are changed for Arduino Leonardo/Yún/Micro (ATmega32U4) because I use Arduino Pro Micro instead.
+ - Optocoupler power pinout changed from 0 to 4 to support the Pro Micro
  - Added support for the Chord ROM (in development) including a new mode.
 
 Catskull changes
