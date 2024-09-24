@@ -7,7 +7,7 @@ My changes
  - Mode button input pin has been moved back from pin 3 from pin 2.
  - Mode button uses an an external pull down resistor instead of an internal pull up resistor.
  - LED pinouts are changed for Arduino Leonardo/Yún/Micro (ATmega32U4)
- - Added support for the Chord ROM (in development)
+ - Added support for the Chord ROM (in development) including a new mode.
 
 Catskull changes
  - Added dependency on [this library](https://www.pjrc.com/teensy/td_libs_PS2Keyboard.html) to handle PS/2 communication. To install, [download](https://github.com/PaulStoffregen/PS2Keyboard/archive/master.zip) the library, and extract it into your Arduino Libraries folder (typically Documents/Arduino/libraries). Do not attempt to install a PS/2 library from the Arduino library manager as that version will not work with this code.
