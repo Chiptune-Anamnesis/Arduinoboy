@@ -1,5 +1,4 @@
-
- /*
+/*
    showSelectedMode1 turns off the last mode led, turns on the new mode led
    and delays for a period of time to reduce jitter behavior from the mode
    changing too fast.
@@ -23,6 +22,11 @@ void showSelectedMode()
         digitalWrite(pinLeds[1],HIGH);
         break;
       case 6:
+        digitalWrite(pinLeds[0],HIGH);
+        digitalWrite(pinLeds[1],HIGH);
+        digitalWrite(pinLeds[2],HIGH);
+        break;
+      case 7:
         digitalWrite(pinLeds[0],HIGH);
         digitalWrite(pinLeds[1],HIGH);
         digitalWrite(pinLeds[2],HIGH);
