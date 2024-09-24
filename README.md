@@ -1,7 +1,7 @@
 # Arduinoboy
 Unofficial ArduinoBoy Repository for serial MIDI communication to the Nintendo Gameboy.
 
-This is a fork of Catskull's fork trash80's official code . It adds the following changes:
+This is a fork of Catskull's fork of trash80's official code . It adds the following changes:
 
 My changes
  - Mode button input pin has been moved back from pin 3 from pin 2.
