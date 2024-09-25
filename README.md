@@ -106,7 +106,12 @@ In LSDJ the `sync` mode should be set to `MI.MAP`.
 
 *This requires a special version of LSDJ, which can be found in your account on the [LSDJ website](http://littlesounddj.com/lsd/latest/full_version/).*
 
-#### Mode 7 LSDJ MIDIOUT
+#### Mode 7 MIDI with Chord
+Chord is a monophonic synth program for the original Nintendo Gameboy. The original idea was to make something that can be played like an instrument, but with the hardware limitations of the few buttons available.
+
+This mode adds the ability to play using MIDI note on/off, change parameters using MIDI CC and tempo sync to MIDI Clock.
+
+#### Mode 8 LSDJ MIDIOUT
 Each of the 4 gameboy channels send MIDI data on 4 midi channels by the use of effects commands:
 
 * `Nxx` - Sends a MIDI Note - Absolute to the value placed in the effect. N00 sends note off, `N01`-`N6F` send midi notes 1 to 112.
