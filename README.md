@@ -7,6 +7,8 @@ This is a fork of Catskull's fork of trash80's official code . It adds the follo
 
 Extract PS2Keyboard-master.zip from this repo to your Arduino Libraries folder (typically Documents/Arduino/libraries). Do not attempt to install a PS/2 library from the Arduino library manager as that version will not work with this code.
 
+Code is built for the crunchypotato (HobbyChop) MIDIGBX line of arduinoboy which includes MIDIGBX 2.0 (MIDI DIN w/ Arduino Nano), Midget (USB to MIDI w/ Arduino ProMicro) and Littly Fatty (TRS 3.5 and USB MIDI w/ ProMicro)
+
 # My changes
  - Mode button input pin has been moved back to pin 3 from pin 2.
  - Mode button uses an an external pull down resistor instead of an internal pull up resistor.
