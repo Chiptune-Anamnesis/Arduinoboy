@@ -7,14 +7,14 @@ This is a fork of Catskull's fork of trash80's official code . It adds the follo
 
 Extract PS2Keyboard-master.zip from this repo to your Arduino Libraries folder (typically Documents/Arduino/libraries). Do not attempt to install a PS/2 library from the Arduino library manager as that version will not work with this code.
 
-My changes
+# My changes
  - Mode button input pin has been moved back to pin 3 from pin 2.
  - Mode button uses an an external pull down resistor instead of an internal pull up resistor.
  - LED pinouts are changed for Arduino Leonardo/Yún/Micro (ATmega32U4) because I use Arduino Pro Micro instead.
  - Optocoupler power pinout changed from 0 to 4 to support the Pro Micro
  - Added support for the Chord ROM (in development) including a new mode.
 
-Catskull changes
+# Catskull changes
  - Added dependency on [this library](https://www.pjrc.com/teensy/td_libs_PS2Keyboard.html) to handle PS/2 communication. To install, [download](https://github.com/PaulStoffregen/PS2Keyboard/archive/master.zip) the library, and extract it into your Arduino Libraries folder (typically Documents/Arduino/libraries). Do not attempt to install a PS/2 library from the Arduino library manager as that version will not work with this code.
 - Added a midi device name ("teensyboy") when using USB midi with a teensy
 
