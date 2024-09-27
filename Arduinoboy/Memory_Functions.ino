@@ -50,6 +50,13 @@ void printMemory()
   }
 }
 
+void sendMemory()
+{
+  for(int m=0;m<=MEM_MAX;m++){
+    Serial.write(memory[m]);
+  }
+}
+
 void saveMemory()
 {
   #ifndef USE_DUE
