@@ -200,8 +200,6 @@ int pinButtonMode = 3; //toggle button for selecting the mode
 
 HardwareSerial *serial = &Serial1;
 
-byte incomingPS2Byte;
-
 
 /***************************************************************************
 * Arduino Due (ATmSAM3X8E)
@@ -234,8 +232,6 @@ int pinButtonMode = 2; //toggle button for selecting the mode
 
 HardwareSerial *serial = &Serial;
 
-byte incomingPS2Byte;
-
 
 /***************************************************************************
 * Arduino UNO/Ethernet/Nano (ATmega328), Arduino UNO Wifi (ATmega4809) or Mega 2560 (ATmega2560/ATmega1280) (assumed)
@@ -267,7 +263,6 @@ int pinButtonMode = 3; //toggle button for selecting the mode
 
 HardwareSerial *serial = &Serial;
 
-byte incomingPS2Byte;
 
 #endif
 
