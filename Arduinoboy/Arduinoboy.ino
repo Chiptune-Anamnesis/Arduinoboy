@@ -209,7 +209,6 @@ HardwareSerial *serial = &Serial1;
 
 #define USE_LEONARDO
 #include <MIDIUSB.h>
-#include <PS2Keyboard.h>
 #include <digitalWriteFast.h>
 
 #define GB_SET(bit_cl, bit_out, bit_in) digitalWriteFast(A0, bit_cl); digitalWriteFast(A1, bit_out); digitalWriteFast(A2, bit_in);
