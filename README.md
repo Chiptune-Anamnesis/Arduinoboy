@@ -4,9 +4,6 @@ Unofficial ArduinoBoy Repository for serial MIDI communication to the Nintendo G
 This is a fork of Catskull's fork of trash80's official code . It adds the following changes:
 
 # Dependency
-
-Extract PS2Keyboard-master.zip from this repo to your Arduino Libraries folder (typically Documents/Arduino/libraries). Do not attempt to install a PS/2 library from the Arduino library manager as that version will not work with this code.
-
 Code is built for the crunchypotato (HobbyChop) MIDIGBX line of arduinoboy which includes MIDIGBX 2.0 (MIDI DIN w/ Arduino Nano), Midget (USB to MIDI w/ Arduino ProMicro) and Littly Fatty (TRS 3.5 and USB MIDI w/ ProMicro)
 
 # My changes
@@ -15,9 +12,11 @@ Code is built for the crunchypotato (HobbyChop) MIDIGBX line of arduinoboy which
  - LED pinouts are changed for Arduino Leonardo/Yún/Micro (ATmega32U4) because I use Arduino Pro Micro instead.
  - Optocoupler power pinout changed from 0 to 4 to support the Pro Micro
  - Added support for the Chord ROM (in development) including a new mode.
+ - Reverted Programmer.ino to pre-USB code in 1.2.2, 1.2.3. Maxpat Editor doesn't appear to work with USB MIDI and breaks it with standard MIDI, so reverting to just standard MIDI.
+ - Removed PS2 code again
+ - Integrated the newest MIDIMAP code from the 1.3.0a trash80 code. If he says it's better I believe him.
 
 # Catskull changes
- - Added dependency on [this library](https://www.pjrc.com/teensy/td_libs_PS2Keyboard.html) to handle PS/2 communication. To install, [download](https://github.com/PaulStoffregen/PS2Keyboard/archive/master.zip) the library, and extract it into your Arduino Libraries folder (typically Documents/Arduino/libraries). Do not attempt to install a PS/2 library from the Arduino library manager as that version will not work with this code.
 - Added a midi device name ("teensyboy") when using USB midi with a teensy
 
 ![ScreenShot](http://trash80.net/arduinoboy/aboy1_2_0.jpg)
