@@ -237,7 +237,6 @@ HardwareSerial *serial = &Serial;
 * Arduino UNO/Ethernet/Nano (ATmega328), Arduino UNO Wifi (ATmega4809) or Mega 2560 (ATmega2560/ATmega1280) (assumed)
 ***************************************************************************/
 #else
-#include <PS2Keyboard.h>
 
 // values for the PS/2 Keyboard input
 #define PS2_DATA_PIN 7
