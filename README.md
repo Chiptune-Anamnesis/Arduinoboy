@@ -16,8 +16,6 @@ Code is built for the crunchypotato (HobbyChop) MIDIGBX line of arduinoboy which
  - Removed PS2 code again
  - Integrated the newest MIDIMAP code from the 1.3.0a trash80 code. If he says it's better I believe him.
 
-# Catskull changes
-- Added a midi device name ("teensyboy") when using USB midi with a teensy
 
 ![ScreenShot](http://trash80.net/arduinoboy/aboy1_2_0.jpg)
 
