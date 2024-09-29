@@ -36,7 +36,7 @@ void modeMidiGb()
 
       if(!checkForProgrammerSysex(incomingMidiByte) && !usbMode) serial->write(incomingMidiByte); //Echo the Byte to MIDI Output
 
-      if(incomingMidiByte & 0xF0) {
+      if(incomingMidiByte & 0x80) {
         switch (incomingMidiByte & 0xF0) {
           case 0xF0:
             midiValueMode = false;
@@ -119,28 +119,6 @@ void sendByteToGameboy(byte send_byte)
  }
 }
 
-#define MIDI_SYSEX_BYTE 0xF0
-
-#define MIDI_STATUS_NOTE_ON 0x90
-#define MIDI_STATUS_NOTE_OFF 0x80
-#define MIDI_STATUS_CC 0xB0
-#define MIDI_STATUS_PC 0xC0
-#define MIDI_STATUS_PITCH_BEND 0xE0
-
-
-#define MIDI_MSG_SYSEX_EOF 0xF7
-#define MIDI_MSG_TIMING_CLOCK 0xF8
-
-#define MIDI_MSG_START 0xFA
-#define MIDI_MSG_CONTINUE 0xFB
-#define MIDI_MSG_STOP 0xFC
-
-#define MIDI_MSG_ACTIVE_SENSING 0xFE
-#define MIDI_MSG_SYSTEM_RESET 0xFF
-
-// Are we capturing SysEx bytes?
-bool isSysexMessage = false;
-
 void modeMidiGbUsbMidiReceive()
 {
 #ifdef USE_TEENSY
@@ -213,99 +191,76 @@ void modeMidiGbUsbMidiReceive()
 
 #ifdef USE_LEONARDO
 
-     midiEventPacket_t rx;
+    midiEventPacket_t rx;
       do
       {
         rx = MidiUSB.read();
-        maybePassThroughSysex(rx.byte1);
-        maybePassThroughSysex(rx.byte2);
-        maybePassThroughSysex(rx.byte3);
-
-        if (isSysexMessage) continue;
-
-        uint8_t type = rx.byte1 & 0xF0;
-
-        // 3 byte messages
-        if (type == MIDI_STATUS_NOTE_ON ||
-            type == MIDI_STATUS_NOTE_OFF ||
-            type == MIDI_STATUS_PC ||
-            type == MIDI_STATUS_CC ||
-            type == MIDI_STATUS_PITCH_BEND) {
-          sendByteToGameboy(rx.byte1);
+        uint8_t ch = rx.byte1 & 0x0F;
+        boolean send = false;
+        if(ch == memory[MEM_MGB_CH]) {
+            ch = 0;
+            send = true;
+        } else if (ch == memory[MEM_MGB_CH+1]) {
+            ch = 1;
+            send = true;
+        } else if (ch == memory[MEM_MGB_CH+2]) {
+            ch = 2;
+            send = true;
+        } else if (ch == memory[MEM_MGB_CH+3]) {
+            ch = 3;
+            send = true;
+        } else if (ch == memory[MEM_MGB_CH+4]) {
+            ch = 4;
+            send = true;
+        }
+        if (!send) return;
+        uint8_t s;
+        switch (rx.header)
+        {
+        case 0x08: // note off
+        case 0x09: // note on
+          s = 0x90 + ch;
+          if (rx.header == 0x08)
+          {
+            s = 0x80 + ch;
+          }
+          sendByteToGameboy(s);
           delayMicroseconds(GB_MIDI_DELAY);
           sendByteToGameboy(rx.byte2);
           delayMicroseconds(GB_MIDI_DELAY);
           sendByteToGameboy(rx.byte3);
           delayMicroseconds(GB_MIDI_DELAY);
-          blinkLight(rx.byte1, rx.byte2);
-        
-        // single byte messages
-        } else if (rx.byte1 == MIDI_MSG_TIMING_CLOCK || 
-                   rx.byte1 == MIDI_MSG_START || 
-                   rx.byte1 == MIDI_MSG_CONTINUE ||
-                   rx.byte1 == MIDI_MSG_STOP) {
-          sendByteToGameboy(rx.byte1);
+          blinkLight(s, rx.byte2);
+          break;
+        case 0x0B: // CC
+          sendByteToGameboy(0xB0 + ch);
           delayMicroseconds(GB_MIDI_DELAY);
+          sendByteToGameboy(rx.byte2);
+          delayMicroseconds(GB_MIDI_DELAY);
+          sendByteToGameboy(rx.byte3);
+          delayMicroseconds(GB_MIDI_DELAY);
+          blinkLight(0xB0 + ch, rx.byte2);
+          break;
+        case 0x0C: // PG
+          sendByteToGameboy(0xC0 + ch);
+          delayMicroseconds(GB_MIDI_DELAY);
+          sendByteToGameboy(rx.byte2);
+          delayMicroseconds(GB_MIDI_DELAY);
+          blinkLight(0xC0 + ch, rx.byte2);
+          break;
+        case 0x0E: // PB
+          sendByteToGameboy(0xE0 + ch);
+          delayMicroseconds(GB_MIDI_DELAY);
+          sendByteToGameboy(rx.byte2);
+          delayMicroseconds(GB_MIDI_DELAY);
+          sendByteToGameboy(rx.byte3);
+          delayMicroseconds(GB_MIDI_DELAY);
+          break;
+        default:
+          return;
         }
 
         statusLedOn();
       } while (rx.header != 0);
 #endif
-}
-
-#define SYSEX_ID_NON_COMMERCIAL 0x7D
-
-// What MFG id did we find, if we find the mGB one, we'll pass through all the bits
-byte capturedSysexId = 0x00;
-
-// Passes through sysex messages to the GB if they are of the form:
-// `0xF0 0x7D ..... 0xF7`
-void maybePassThroughSysex(byte incomingMidiByte) {
-  // byte 1 - Check for SysEx status byte
-  if (!isSysexMessage && incomingMidiByte == MIDI_SYSEX_BYTE) {
-    isSysexMessage = true;
-    capturedSysexId = 0x00; // prompt check for mfg_id
-    blinkLight(0x90+2, 1);
-    return;
-  }
-
-  if (!isSysexMessage) return;
-
-  // byte 2 (mfg_id)
-  if (capturedSysexId == 0x00) {
-    capturedSysexId = incomingMidiByte;
-
-    // only if it's the right id
-    if (capturedSysexId == SYSEX_ID_NON_COMMERCIAL) {
-      // replay Sysex status byte, since we skipped it
-      sendByteToGameboy(MIDI_SYSEX_BYTE);
-      delayMicroseconds(GB_MIDI_DELAY);
-      blinkLight(0x90+2, 1);
-
-      // forward current byte (mfg id)
-      sendByteToGameboy(capturedSysexId);
-      delayMicroseconds(GB_MIDI_DELAY);
-      blinkLight(0x90+2, 1);
-    }
-    return;
-  }
-
-  // stop passthrough, wrong id
-  if (capturedSysexId != SYSEX_ID_NON_COMMERCIAL) {
-    isSysexMessage = false;
-    capturedSysexId = 0x00;
-    return;
-  }
-
-  // stop passing through, EOF
-  if (incomingMidiByte == MIDI_MSG_SYSEX_EOF) {
-    isSysexMessage = false;
-    capturedSysexId = 0x00;
-  }
-
-  // send bytes (incl EOF)
-  sendByteToGameboy(incomingMidiByte);
-  delayMicroseconds(GB_MIDI_DELAY);
-  blinkLight(0x90+2, 1);
-
 }
