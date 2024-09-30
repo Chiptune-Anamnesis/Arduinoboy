@@ -425,7 +425,7 @@ uint8_t mapQueueWaitUsb = 5; //5ms - Needs to be longer because message packet i
 /***************************************************************************
 * mGB Settings
 ***************************************************************************/
-#define GB_MIDI_DELAY 3250 //Microseconds to delay the sending of a byte to gb
+#define GB_MIDI_DELAY 2500 //Microseconds to delay the sending of a byte to gb
 
 void setup() {
 /*
